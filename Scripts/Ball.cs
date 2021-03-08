@@ -13,6 +13,7 @@ public class Ball : MonoBehaviour
      */
     public Text kontrolText;
     private Rigidbody ballRb;
+    private Collider ballCollider;
     private Renderer ballRenderer;
     private Man manScript;
     private GameObject manToDestroy;
@@ -24,13 +25,14 @@ public class Ball : MonoBehaviour
 
     void Start()
     {
+        ballCollider = GetComponent<Collider>();
         ballRb = GetComponent<Rigidbody>();
         ballRenderer = GetComponent<Renderer>();
     }
 
     void Update()
     {
-        //Top yere düþerken kullanýcýnýn yakalammasýný kolaylaþtýrmak adýna drag ayarlarý
+        //Top yere dÃ¼ÅŸerken kullanÄ±cÄ±nÄ±n yakalammasÄ±nÄ± kolaylaÅŸtÄ±rmak adÄ±na drag ayarlarÄ±
         if(ballRb.velocity.y>3 && isThrowed == true && ballRb.velocity.y<20)
         {
             if(isColorSelected == false)
@@ -51,12 +53,14 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Topun renderer görüntüyü güzel göstermek için kayboluyor. Çoklu renkler için kontrol mekanizmasý yapýlacak
+        //Topun renderer gÃ¶rÃ¼ntÃ¼yÃ¼ gÃ¼zel gÃ¶stermek iÃ§in kayboluyor. Ã‡oklu renkler iÃ§in kontrol mekanizmasÄ± yapÄ±lacak
         if(collision.gameObject.CompareTag("Man"))
         {
-            manToDestroy = collision.transform.parent.gameObject;
+            manToDestroy = collision.gameObject;
             manScript = collision.gameObject.GetComponentInParent<Man>();
 
+            ballCollider.enabled = false;
+            ballRb.constraints = RigidbodyConstraints.FreezePositionY;
             ballRenderer.enabled = false;
             Destroy(manToDestroy,1.5f);
 
@@ -83,13 +87,13 @@ public class Ball : MonoBehaviour
         {
             if (string.Equals(manScript.color,currentColor))
             {
-                kontrolText.text = "Doðru eleman";
-                Debug.Log("Doðru eleman");
+                kontrolText.text = "DoÄŸru eleman";
+                Debug.Log("DoÄŸru eleman");
             }
             else
             {
-                kontrolText.text = "Yanlýþ Eleman";
-                Debug.Log("Yanlýþ eleman");
+                kontrolText.text = "YanlÄ±ÅŸ Eleman";
+                Debug.Log("YanlÄ±ÅŸ eleman");
             }
         }
     }
