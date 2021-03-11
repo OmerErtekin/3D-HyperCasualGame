@@ -5,12 +5,10 @@ using UnityEngine.AI;
 
 public class Man : MonoBehaviour
 {
-    /*
-     * isPatrolling false olursa navmesh kapanýyor. ReadyToJump true olduðunda jump buttonundan etkileniyor
-     * isGoingToJump true olduðunda diðer patrolllerden etkilenmez. isRotated true olduðunda karakter zýplama rampasýnda topa döner
-     */
+
     private NavMeshAgent agent;
-    public bool isPatrolling = true,readyToJump = false, isGoingToJump = false,isRotated = false;
+    // isPatrolling dogru oldugunda karakter kosar. isGoingToJump dogru oldugunda karakter diger patrollPointlerden etkilenmez.
+    public bool isPatrolling = true, isGoingToJump = false;
     public string color;
     private Animator manAnimator;
     public Transform patrollPoint,lookPosition;
@@ -32,21 +30,16 @@ public class Man : MonoBehaviour
         {
             agent.enabled = false;
         }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Look();
-        }
+
 
     }
 
 
     public void Jump()
     {
-        if (readyToJump == true)
-        {
-            manAnimator.SetInteger("state", 5);
-            readyToJump = false;
-        }
+        
+        manAnimator.SetInteger("state", 5);
+        
     }
 
     public void Look()
