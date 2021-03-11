@@ -27,16 +27,20 @@ public class JumpPoint : MonoBehaviour
         if(other.gameObject.CompareTag("Man"))
         {
             manScript = other.GetComponentInParent<Man>();
-            manAnimator = other.GetComponentInParent<Animator>();
-            manRb = other.GetComponentInParent<Rigidbody>();
+            if (manScript.isGoingToJump == true)
+            {
+                manAnimator = other.GetComponentInParent<Animator>();
+                manRb = other.GetComponentInParent<Rigidbody>();
 
 
-            //karakter rampanýn sonuna geldiðinde anlamsýz zýplamasý için ilk baþta y position kilitli. Burada tekrardan açýlýyor.
-            manScript.isPatrolling = false;
-            manScript.readyToJump = true;
-            manRb.constraints = RigidbodyConstraints.None;
-            manRb.freezeRotation = true;
-            manAnimator.SetInteger("state", 2);
+                //karakter rampanÄ±n sonuna geldiÄŸinde anlamsÄ±z zÄ±plamasÄ± iÃ§in ilk baÅŸta y position kilitli. Burada tekrardan aÃ§Ä±lÄ±yor.
+                manScript.isPatrolling = false;
+                manScript.isGoingToJump= true;
+                manRb.constraints = RigidbodyConstraints.None;
+                manRb.freezeRotation = true;
+                manScript.Look();
+                manScript.Jump();
+            }
         }
     }
 }
